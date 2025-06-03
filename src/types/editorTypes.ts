@@ -5,6 +5,7 @@ export type PrivacyStatus = 'private' | 'public' | 'shared';
 export type ViewOption = 'grid' | 'list' | 'snake';
 export type SectionViewOption = 'padding' | 'no-padding';
 export type SectionFormat = 'markdown' | 'json' | 'yaml' | 'xml';
+export type LayoutMode = 'canvas' | 'document' | 'focus' | 'split';
 
 // Define sidebar items for each prompt type
 export type StandardSidebarItem = 'files' | 'templates' | 'history' | 'settings' | 'help' | null;
@@ -36,6 +37,8 @@ export interface KanbanBlock {
 export interface EditorContextType {
   mode: EditorMode;
   setMode: (mode: EditorMode) => void;
+  layoutMode: LayoutMode;
+  setLayoutMode: (mode: LayoutMode) => void;
   promptType: PromptType;
   setPromptType: (type: PromptType) => void;
   documentName: string;

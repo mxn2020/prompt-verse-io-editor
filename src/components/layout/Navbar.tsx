@@ -16,7 +16,11 @@ import {
   FileText,
   Layout,
   Puzzle,
-  Boxes
+  Boxes,
+  Columns,
+  Maximize2,
+  Split,
+  Focus
 } from 'lucide-react';
 import { useEditor } from '../../hooks/use-editor';
 import { useTheme } from '../../context/ThemeContext';
@@ -27,6 +31,8 @@ const Navbar: React.FC = () => {
   const {
     mode,
     setMode,
+    layoutMode,
+    setLayoutMode,
     promptType,
     setPromptType,
     documentName,
@@ -44,6 +50,7 @@ const Navbar: React.FC = () => {
   const [nameInput, setNameInput] = useState(documentName);
   const [showModeDropdown, setShowModeDropdown] = useState(false);
   const [showPromptTypeDropdown, setShowPromptTypeDropdown] = useState(false);
+  const [showLayoutDropdown, setShowLayoutDropdown] = useState(false);
   const [showPrivacyDropdown, setShowPrivacyDropdown] = useState(false);
 
   const handleNameSubmit = () => {
@@ -82,6 +89,21 @@ const Navbar: React.FC = () => {
         return <Puzzle size={18} />;
       case 'advanced':
         return <Boxes size={18} />;
+      default:
+        return <FileText size={18} />;
+    }
+  };
+
+  const getLayoutIcon = () => {
+    switch (layoutMode) {
+      case 'canvas':
+        return <Columns size={18} />;
+      case 'document':
+        return <FileText size={18} />;
+      case 'focus':
+        return <Focus size={18} />;
+      case 'split':
+        return <Split size={18} />;
       default:
         return <FileText size={18} />;
     }
@@ -220,6 +242,54 @@ const Navbar: React.FC = () => {
                 >
                   <Boxes size={16} />
                   <span>Advanced</span>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* Layout Mode Dropdown */}
+        <div className="relative">
+          <Button
+            className="flex items-center space-x-1 px-3 py-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer hover:shadow-sm transition-all duration-150"
+            onClick={() => setShowLayoutDropdown(!showLayoutDropdown)}
+            variant="ghost"
+          >
+            {getLayoutIcon()}
+            <span className="capitalize">{layoutMode}</span>
+            <ChevronDown size={16} />
+          </Button>
+
+          {showLayoutDropdown && (
+            <div className={`absolute top-full left-0 mt-1 w-40 rounded-md shadow-lg z-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+              <ul>
+                <li
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${layoutMode === 'canvas' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setLayoutMode('canvas'); setShowLayoutDropdown(false); }}
+                >
+                  <Columns size={16} />
+                  <span>Canvas</span>
+                </li>
+                <li
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${layoutMode === 'document' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setLayoutMode('document'); setShowLayoutDropdown(false); }}
+                >
+                  <FileText size={16} />
+                  <span>Document</span>
+                </li>
+                <li
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${layoutMode === 'focus' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setLayoutMode('focus'); setShowLayoutDropdown(false); }}
+                >
+                  <Focus size={16} />
+                  <span>Focus</span>
+                </li>
+                <li
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${layoutMode === 'split' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setLayoutMode('split'); setShowLayoutDropdown(false); }}
+                >
+                  <Split size={16} />
+                  <span>Split</span>
                 </li>
               </ul>
             </div>

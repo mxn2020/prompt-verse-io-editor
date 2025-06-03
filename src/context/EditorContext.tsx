@@ -11,7 +11,8 @@ import {
   SidebarItem,
   SectionViewOption,
   SectionFormat,
-  ViewOption
+  ViewOption,
+  LayoutMode
 } from '../types/editorTypes';
 
 interface EditorProviderProps {
@@ -20,6 +21,7 @@ interface EditorProviderProps {
 
 const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const [mode, setMode] = useState<EditorMode>('editing');
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>('document');
   const [promptType, setPromptType] = useState<PromptType>('standard');
   const [documentName, setDocumentName] = useState<string>('Untitled Prompt');
   const [documentStatus, setDocumentStatus] = useState<DocumentStatus>('saved');
@@ -71,16 +73,15 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     }
   };
 
-const toggleInnerSidebar = () => {
-  setIsInnerSidebarExpanded(prev => {
-    const newValue = !prev;
-    // If we're closing the sidebar, clear the active item
-    if (!newValue) {
-      setActiveSidebarItem(null);
-    }
-    return newValue;
-  });
-};
+  const toggleInnerSidebar = () => {
+    setIsInnerSidebarExpanded(prev => {
+      const newValue = !prev;
+      if (!newValue) {
+        setActiveSidebarItem(null);
+      }
+      return newValue;
+    });
+  };
 
   const toggleRightSidebar = () => {
     setIsRightSidebarExpanded(prev => !prev);
@@ -168,7 +169,6 @@ const toggleInnerSidebar = () => {
   };
 
   const getSidebarItems = () => {
-    // This is a placeholder implementation - you may want to customize this based on your needs
     return [
       { icon: null, label: 'Files' },
       { icon: null, label: 'Templates' },
@@ -181,6 +181,8 @@ const toggleInnerSidebar = () => {
       value={{
         mode,
         setMode,
+        layoutMode,
+        setLayoutMode,
         promptType,
         setPromptType,
         documentName,
