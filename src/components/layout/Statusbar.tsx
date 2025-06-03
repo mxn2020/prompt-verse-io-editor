@@ -3,11 +3,11 @@ import {
   AlignLeft, 
   CheckSquare, 
   Clock, 
-  Share2, 
   Moon, 
   Sun
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { Button } from '../ui/button';
 
 const Statusbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -37,12 +37,13 @@ const Statusbar: React.FC = () => {
       </div>
       
       <div className="flex items-center space-x-4">
-        <button 
-          className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+        <Button 
+          className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
           onClick={toggleTheme}
+          variant="ghost"
         >
           {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-        </button>
+        </Button>
       </div>
     </div>
   );

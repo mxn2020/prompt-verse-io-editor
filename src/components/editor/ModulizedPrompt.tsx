@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plus, Trash2, Edit, FileText } from 'lucide-react';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
 import { useTheme } from '../../context/ThemeContext';
 
 const ModulizedPrompt: React.FC = () => {

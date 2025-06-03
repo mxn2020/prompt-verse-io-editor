@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Search, X } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
 
 interface InnerSidebarProps {
   floating: boolean;

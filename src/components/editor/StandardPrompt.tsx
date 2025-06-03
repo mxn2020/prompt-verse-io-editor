@@ -1,6 +1,7 @@
 import React from 'react';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
 import { useTheme } from '../../context/ThemeContext';
+import { Textarea } from '../ui/textarea';
 
 const StandardPrompt: React.FC = () => {
   const { standardPromptContent, setStandardPromptContent, mode } = useEditor();
@@ -14,16 +15,16 @@ const StandardPrompt: React.FC = () => {
       : 'bg-white text-gray-800'
   }`;
   
-  const textareaClass = `w-full min-h-[calc(100vh-300px)] p-4 rounded-md resize-none outline-none transition-colors duration-150 ${
+  const textareaClass = `w-full min-h-[calc(100vh-300px)] p-4 rounded-md resize-none outline-none transition-colors duration-150 border-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:border-transparent shadow-none ${
     theme === 'dark'
-      ? 'bg-gray-800 text-gray-100 focus:ring-1 focus:ring-blue-500'
-      : 'bg-white text-gray-800 focus:ring-1 focus:ring-blue-500'
+      ? 'bg-gray-800 text-gray-100'
+      : 'bg-white text-gray-800'
   }`;
 
   return (
     <div className={containerClass}>
       {isEditable ? (
-        <textarea
+        <Textarea
           className={textareaClass}
           value={standardPromptContent}
           onChange={(e) => setStandardPromptContent(e.target.value)}

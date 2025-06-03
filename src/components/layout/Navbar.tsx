@@ -1,44 +1,45 @@
 import React, { useState } from 'react';
-import { 
-  Menu, 
-  ChevronDown, 
-  Edit3, 
-  Eye, 
-  MessageSquare, 
-  FileEdit, 
-  Save, 
-  Lock, 
-  Globe, 
-  Users, 
-  Share2, 
-  PanelLeftClose, 
-  PanelLeftOpen, 
+import {
+  ChevronDown,
+  Edit3,
+  Eye,
+  MessageSquare,
+  FileEdit,
+  Save,
+  Lock,
+  Globe,
+  Users,
+  Share2,
+  PanelLeftClose,
+  PanelLeftOpen,
   User,
   FileText,
   Layout,
   Puzzle,
   Boxes
 } from 'lucide-react';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
 import { useTheme } from '../../context/ThemeContext';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 const Navbar: React.FC = () => {
-  const { 
-    mode, 
-    setMode, 
+  const {
+    mode,
+    setMode,
     promptType,
     setPromptType,
-    documentName, 
-    setDocumentName, 
-    documentStatus, 
-    privacyStatus, 
+    documentName,
+    setDocumentName,
+    documentStatus,
+    privacyStatus,
     setPrivacyStatus,
     toggleOuterSidebar,
     isOuterSidebarExpanded
   } = useEditor();
-  
+
   const { theme } = useTheme();
-  
+
   const [isEditingName, setIsEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(documentName);
   const [showModeDropdown, setShowModeDropdown] = useState(false);
@@ -113,57 +114,59 @@ const Navbar: React.FC = () => {
   };
 
   const baseClasses = "h-14 px-4 flex items-center justify-between border-b";
-  const themeClasses = theme === 'dark' 
-    ? "bg-gray-800 border-gray-700" 
+  const themeClasses = theme === 'dark'
+    ? "bg-gray-800 border-gray-700"
     : "bg-white border-gray-200";
 
   return (
     <nav className={`${baseClasses} ${themeClasses}`}>
       {/* Left Section */}
       <div className="flex items-center space-x-3">
-        <button 
-          className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+        <Button
+          className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer hover:shadow-sm transition-all duration-150"
           onClick={toggleOuterSidebar}
+          variant="ghost"
         >
           {isOuterSidebarExpanded ? <PanelLeftClose size={20} /> : <PanelLeftOpen size={20} />}
-        </button>
-        
+        </Button>
+
         {/* Mode Dropdown */}
         <div className="relative">
-          <button 
-            className="flex items-center space-x-1 px-3 py-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+          <Button
+            className="flex items-center space-x-1 px-3 py-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer hover:shadow-sm transition-all duration-150"
             onClick={() => setShowModeDropdown(!showModeDropdown)}
+            variant="ghost"
           >
             {getModeIcon()}
             <span className="capitalize">{mode}</span>
             <ChevronDown size={16} />
-          </button>
-          
+          </Button>
+
           {showModeDropdown && (
             <div className={`absolute top-full left-0 mt-1 w-40 rounded-md shadow-lg z-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
               <ul>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'editing' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setMode('editing'); setShowModeDropdown(false); }}
                 >
                   <Edit3 size={16} />
                   <span>Editing</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'viewing' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setMode('viewing'); setShowModeDropdown(false); }}
                 >
                   <Eye size={16} />
                   <span>Viewing</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'commenting' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setMode('commenting'); setShowModeDropdown(false); }}
                 >
                   <MessageSquare size={16} />
                   <span>Commenting</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'suggesting' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setMode('suggesting'); setShowModeDropdown(false); }}
                 >
@@ -177,40 +180,41 @@ const Navbar: React.FC = () => {
 
         {/* Prompt Type Dropdown */}
         <div className="relative">
-          <button 
-            className="flex items-center space-x-1 px-3 py-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+          <Button
+            className="flex items-center space-x-1 px-3 py-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer hover:shadow-sm transition-all duration-150"
             onClick={() => setShowPromptTypeDropdown(!showPromptTypeDropdown)}
+            variant="ghost"
           >
             {getPromptTypeIcon()}
             <span className="capitalize">{promptType}</span>
             <ChevronDown size={16} />
-          </button>
-          
+          </Button>
+
           {showPromptTypeDropdown && (
             <div className={`absolute top-full left-0 mt-1 w-40 rounded-md shadow-lg z-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
               <ul>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'standard' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setPromptType('standard'); setShowPromptTypeDropdown(false); }}
                 >
                   <FileText size={16} />
                   <span>Standard</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'structured' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setPromptType('structured'); setShowPromptTypeDropdown(false); }}
                 >
                   <Layout size={16} />
                   <span>Structured</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'modulized' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setPromptType('modulized'); setShowPromptTypeDropdown(false); }}
                 >
                   <Puzzle size={16} />
                   <span>Modulized</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'advanced' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setPromptType('advanced'); setShowPromptTypeDropdown(false); }}
                 >
@@ -222,65 +226,67 @@ const Navbar: React.FC = () => {
           )}
         </div>
       </div>
-      
+
       {/* Middle Section */}
       <div className="flex items-center space-x-4">
         {isEditingName ? (
           <div className="flex items-center space-x-1">
-            <input
+            <Input
               type="text"
               value={nameInput}
               onChange={(e) => setNameInput(e.target.value)}
               onBlur={handleNameSubmit}
               onKeyDown={handleKeyDown}
-              className={`px-2 py-1 border rounded ${theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              className={`px-2 py-1 border rounded ${theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer`}
               autoFocus
             />
           </div>
         ) : (
           <div className="flex items-center space-x-1">
             <h1 className="text-lg font-medium">{documentName}</h1>
-            <button 
-              className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+            <Button
+              className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer hover:shadow-sm transition-all duration-150"
               onClick={() => setIsEditingName(true)}
+              variant="ghost"
             >
               <Edit3 size={14} />
-            </button>
+            </Button>
           </div>
         )}
-        
+
         <div className="text-sm">
           {getStatusIndicator()}
         </div>
-        
+
         {/* Privacy Dropdown */}
         <div className="relative">
-          <button 
-            className="flex items-center space-x-1 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+          <Button
+            className="flex items-center space-x-1 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer hover:shadow-sm transition-all duration-150"
             onClick={() => setShowPrivacyDropdown(!showPrivacyDropdown)}
+            variant="ghost"
           >
             {getPrivacyIcon()}
             <ChevronDown size={16} />
-          </button>
-          
+          </Button>
+
           {showPrivacyDropdown && (
             <div className={`absolute top-full right-0 mt-1 w-40 rounded-md shadow-lg z-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
               <ul>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${privacyStatus === 'private' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setPrivacyStatus('private'); setShowPrivacyDropdown(false); }}
                 >
                   <Lock size={16} />
                   <span>Private</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${privacyStatus === 'public' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setPrivacyStatus('public'); setShowPrivacyDropdown(false); }}
                 >
                   <Globe size={16} />
                   <span>Public</span>
                 </li>
-                <li 
+                <li
                   className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${privacyStatus === 'shared' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
                   onClick={() => { setPrivacyStatus('shared'); setShowPrivacyDropdown(false); }}
                 >
@@ -292,13 +298,16 @@ const Navbar: React.FC = () => {
           )}
         </div>
       </div>
-      
+
       {/* Right Section */}
       <div className="flex items-center space-x-4">
-        <button className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+        <Button
+          className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer hover:shadow-sm transition-all duration-150"
+          variant="ghost"
+        >
           <Share2 size={20} />
-        </button>
-        
+        </Button>
+
         <div className="flex items-center space-x-2">
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-blue-600' : 'bg-blue-500'} text-white`}>
             <User size={16} />

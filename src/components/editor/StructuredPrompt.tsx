@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, ChevronRight, ChevronDown, Grip } from 'lucide-react';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
 import { useTheme } from '../../context/ThemeContext';
 import { Section } from '../../types/editorTypes';
 

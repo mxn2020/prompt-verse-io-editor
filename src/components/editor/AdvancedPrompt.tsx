@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, Edit, Move } from 'lucide-react';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
 import { useTheme } from '../../context/ThemeContext';
 import { Module } from '../../types/editorTypes';
 

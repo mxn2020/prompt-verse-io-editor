@@ -12,7 +12,8 @@ import {
   Puzzle
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
+import { Button } from '../ui/button';
 
 const OuterSidebar: React.FC = () => {
   const { theme } = useTheme();
@@ -34,27 +35,35 @@ const OuterSidebar: React.FC = () => {
   const getItemClass = (item: string) => {
     const isActive = activeSidebarItem === item;
     const isHovered = hoveredSidebarItem === item;
-    
-    return `w-full flex flex-col items-center py-3 px-2 transition-colors duration-150 ${
+    return `w-full m-1 w-16 h-16 flex flex-col items-center py-3 px-2 transition-all duration-150 cursor-pointer ` +
+    `hover:shadow-lg rounded-lg ` +
+    (
       isActive 
-        ? theme === 'dark' 
-          ? 'bg-gray-700 text-white' 
-          : 'bg-gray-200 text-gray-900'
-        : isHovered
-          ? theme === 'dark'
-            ? 'bg-gray-750 text-gray-100'
-            : 'bg-gray-150 text-gray-800'
-          : theme === 'dark'
-            ? 'text-gray-400 hover:text-gray-200'
-            : 'text-gray-600 hover:text-gray-900'
-    }`;
+      ? theme === 'dark' 
+        ? 'bg-gray-700 text-white' 
+        : 'bg-gray-200 text-gray-900'
+      : isHovered
+        ? theme === 'dark'
+        ? 'bg-gray-750 text-gray-100'
+        : 'bg-gray-150 text-gray-800'
+        : theme === 'dark'
+        ? 'text-gray-400 hover:text-gray-200'
+        : 'text-gray-600 hover:text-gray-900'
+    );
   };
 
   const handleItemClick = (item: any) => {
+    console.log(`Clicked on sidebar 
+      item: ${item},
+      activeSidebarItem: ${activeSidebarItem},
+      isInnerSidebarExpanded: ${isInnerSidebarExpanded}`);
+
     if (activeSidebarItem === item) {
+      console.log(`Deselecting sidebar item: ${item}`);
       setActiveSidebarItem(null);
       toggleInnerSidebar();
     } else {
+      console.log(`Selecting sidebar item: ${item}`);
       setActiveSidebarItem(item);
       if (!isInnerSidebarExpanded) {
         toggleInnerSidebar();
@@ -77,150 +86,151 @@ const OuterSidebar: React.FC = () => {
       case 'structured':
         return (
           <>
-            <button 
+            <Button 
               className={getItemClass('sections')}
               onClick={() => handleItemClick('sections')}
               onMouseEnter={() => handleMouseEnter('sections')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Layout size={24} />
               <span className="text-xs mt-1">Sections</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('templates')}
               onClick={() => handleItemClick('templates')}
               onMouseEnter={() => handleMouseEnter('templates')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <BookTemplate size={24} />
               <span className="text-xs mt-1">Templates</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('preview')}
               onClick={() => handleItemClick('preview')}
               onMouseEnter={() => handleMouseEnter('preview')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Eye size={24} />
               <span className="text-xs mt-1">Preview</span>
-            </button>
+            </Button>
           </>
         );
-      
       case 'modulized':
         return (
           <>
-            <button 
+            <Button 
               className={getItemClass('modules')}
               onClick={() => handleItemClick('modules')}
               onMouseEnter={() => handleMouseEnter('modules')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Puzzle size={24} />
               <span className="text-xs mt-1">Modules</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('templates')}
               onClick={() => handleItemClick('templates')}
               onMouseEnter={() => handleMouseEnter('templates')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <BookTemplate size={24} />
               <span className="text-xs mt-1">Templates</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('schema')}
               onClick={() => handleItemClick('schema')}
               onMouseEnter={() => handleMouseEnter('schema')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Layers size={24} />
               <span className="text-xs mt-1">Schema</span>
-            </button>
+            </Button>
           </>
         );
-      
       case 'advanced':
         return (
           <>
-            <button 
+            <Button 
               className={getItemClass('templates')}
               onClick={() => handleItemClick('templates')}
               onMouseEnter={() => handleMouseEnter('templates')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <BookTemplate size={24} />
               <span className="text-xs mt-1">Templates</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('library')}
               onClick={() => handleItemClick('library')}
               onMouseEnter={() => handleMouseEnter('library')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Library size={24} />
               <span className="text-xs mt-1">Library</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('modules')}
               onClick={() => handleItemClick('modules')}
               onMouseEnter={() => handleMouseEnter('modules')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Puzzle size={24} />
               <span className="text-xs mt-1">Modules</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('blocks')}
               onClick={() => handleItemClick('blocks')}
               onMouseEnter={() => handleMouseEnter('blocks')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Boxes size={24} />
               <span className="text-xs mt-1">Blocks</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('wrappers')}
               onClick={() => handleItemClick('wrappers')}
               onMouseEnter={() => handleMouseEnter('wrappers')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <Layers size={24} />
               <span className="text-xs mt-1">Wrappers</span>
-            </button>
+            </Button>
           </>
         );
-      
       default: // standard
         return (
           <>
-            <button 
+            <Button 
               className={getItemClass('files')}
               onClick={() => handleItemClick('files')}
               onMouseEnter={() => handleMouseEnter('files')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <FileText size={24} />
               <span className="text-xs mt-1">Files</span>
-            </button>
-            
-            <button 
+            </Button>
+            <Button 
               className={getItemClass('templates')}
               onClick={() => handleItemClick('templates')}
               onMouseEnter={() => handleMouseEnter('templates')}
               onMouseLeave={handleMouseLeave}
+              variant="ghost"
             >
               <BookTemplate size={24} />
               <span className="text-xs mt-1">Templates</span>
-            </button>
+            </Button>
           </>
         );
     }
@@ -232,25 +242,26 @@ const OuterSidebar: React.FC = () => {
       
       <div className={dividerClass}></div>
       
-      <button 
+      <Button 
         className={getItemClass('settings')}
         onClick={() => handleItemClick('settings')}
         onMouseEnter={() => handleMouseEnter('settings')}
         onMouseLeave={handleMouseLeave}
+        variant="ghost"
       >
         <Settings size={24} />
         <span className="text-xs mt-1">Settings</span>
-      </button>
-      
-      <button 
+      </Button>
+      <Button 
         className={getItemClass('help')}
         onClick={() => handleItemClick('help')}
         onMouseEnter={() => handleMouseEnter('help')}
         onMouseLeave={handleMouseLeave}
+        variant="ghost"
       >
         <HelpCircle size={24} />
         <span className="text-xs mt-1">Help</span>
-      </button>
+      </Button>
     </div>
   );
 };

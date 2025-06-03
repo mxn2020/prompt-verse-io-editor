@@ -11,7 +11,8 @@ import {
   FileText
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { useEditor } from '../../context/EditorContext';
+import { useEditor } from '../../hooks/useEditor';
+import { Button } from '../ui/button';
 
 const ViewOptionsToolbar: React.FC = () => {
   const { theme } = useTheme();
@@ -35,7 +36,7 @@ const ViewOptionsToolbar: React.FC = () => {
     ? "bg-gray-800 text-gray-200" 
     : "bg-white text-gray-800";
     
-  const buttonBaseClass = `p-1.5 rounded transition-colors duration-150 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`;
+  const buttonBaseClass = `p-1.5 rounded transition-colors duration-150 ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} cursor-pointer`;
   const buttonActiveClass = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200';
   
   const renderViewOptions = () => {
@@ -43,36 +44,39 @@ const ViewOptionsToolbar: React.FC = () => {
       return (
         <>
           <div className="flex">
-            <button 
+            <Button 
               className={`${buttonBaseClass} ${moduleViewOption === 'grid' ? buttonActiveClass : ''}`}
               onClick={() => setModuleViewOption('grid')}
               title="Grid View"
+              variant="ghost"
             >
               <Grid size={16} />
-            </button>
-            <button 
+            </Button>
+            <Button 
               className={`${buttonBaseClass} ${moduleViewOption === 'list' ? buttonActiveClass : ''}`}
               onClick={() => setModuleViewOption('list')}
               title="List View"
+              variant="ghost"
             >
               <List size={16} />
-            </button>
-            <button 
+            </Button>
+            <Button 
               className={`${buttonBaseClass} ${moduleViewOption === 'snake' ? buttonActiveClass : ''}`}
               onClick={() => setModuleViewOption('snake')}
               title="Snake View"
+              variant="ghost"
             >
               <LayoutTemplate size={16} />
-            </button>
+            </Button>
           </div>
           <div className={`h-4 w-px mx-1 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
           <div className="flex">
-            <button className={buttonBaseClass} title="Zoom Out">
+            <Button className={buttonBaseClass} title="Zoom Out" variant="ghost">
               <Minus size={16} />
-            </button>
-            <button className={buttonBaseClass} title="Zoom In">
+            </Button>
+            <Button className={buttonBaseClass} title="Zoom In" variant="ghost">
               <Plus size={16} />
-            </button>
+            </Button>
           </div>
         </>
       );
@@ -80,37 +84,41 @@ const ViewOptionsToolbar: React.FC = () => {
       return (
         <>
           <div className="flex">
-            <button 
+            <Button 
               className={`${buttonBaseClass} ${sectionViewOption === 'padding' ? buttonActiveClass : ''}`}
               onClick={() => setSectionViewOption('padding')}
               title="With Padding"
+              variant="ghost"
             >
               <Maximize2 size={16} />
-            </button>
-            <button 
+            </Button>
+            <Button 
               className={`${buttonBaseClass} ${sectionViewOption === 'no-padding' ? buttonActiveClass : ''}`}
               onClick={() => setSectionViewOption('no-padding')}
               title="No Padding"
+              variant="ghost"
             >
               <Minimize2 size={16} />
-            </button>
+            </Button>
           </div>
           <div className={`h-4 w-px mx-1 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
           <div className="flex">
-            <button 
+            <Button 
               className={`${buttonBaseClass} ${sectionFormat === 'markdown' ? buttonActiveClass : ''}`}
               onClick={() => setSectionFormat('markdown')}
               title="Markdown Format"
+              variant="ghost"
             >
               <FileText size={16} />
-            </button>
-            <button 
+            </Button>
+            <Button 
               className={`${buttonBaseClass} ${sectionFormat === 'json' ? buttonActiveClass : ''}`}
               onClick={() => setSectionFormat('json')}
               title="JSON Format"
+              variant="ghost"
             >
               <Code size={16} />
-            </button>
+            </Button>
           </div>
         </>
       );
@@ -118,29 +126,31 @@ const ViewOptionsToolbar: React.FC = () => {
       return (
         <>
           <div className="flex">
-            <button 
+            <Button 
               className={`${buttonBaseClass} ${sectionViewOption === 'padding' ? buttonActiveClass : ''}`}
               onClick={() => setSectionViewOption('padding')}
               title="With Padding"
+              variant="ghost"
             >
               <Maximize2 size={16} />
-            </button>
-            <button 
+            </Button>
+            <Button 
               className={`${buttonBaseClass} ${sectionViewOption === 'no-padding' ? buttonActiveClass : ''}`}
               onClick={() => setSectionViewOption('no-padding')}
               title="No Padding"
+              variant="ghost"
             >
               <Minimize2 size={16} />
-            </button>
+            </Button>
           </div>
           <div className={`h-4 w-px mx-1 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
           <div className="flex">
-            <button className={buttonBaseClass} title="Zoom Out">
+            <Button className={buttonBaseClass} title="Zoom Out" variant="ghost">
               <Minus size={16} />
-            </button>
-            <button className={buttonBaseClass} title="Zoom In">
+            </Button>
+            <Button className={buttonBaseClass} title="Zoom In" variant="ghost">
               <Plus size={16} />
-            </button>
+            </Button>
           </div>
         </>
       );

@@ -1,77 +1,18 @@
-import React, { createContext, useContext, useState, ReactNode, useRef } from 'react';
-import { Section, Module, KanbanBlock } from '../types/editorTypes';
-
-type EditorMode = 'editing' | 'viewing' | 'commenting' | 'suggesting';
-type PromptType = 'standard' | 'structured' | 'modulized' | 'advanced';
-type DocumentStatus = 'saved' | 'saving' | 'unsaved';
-type PrivacyStatus = 'private' | 'public' | 'shared';
-type ViewOption = 'grid' | 'list' | 'snake';
-type SectionViewOption = 'padding' | 'no-padding';
-type SectionFormat = 'markdown' | 'json' | 'yaml' | 'xml';
-
-// Define sidebar items for each prompt type
-type StandardSidebarItem = 'files' | 'templates' | 'history' | 'settings' | 'help' | null;
-type StructuredSidebarItem = 'sections' | 'templates' | 'preview' | 'settings' | 'help' | null;
-type ModulizedSidebarItem = 'modules' | 'templates' | 'schema' | 'settings' | 'help' | null;
-type AdvancedSidebarItem = 'templates' | 'library' | 'modules' | 'blocks' | 'wrappers' | 'help' | null;
-
-type SidebarItem = StandardSidebarItem | StructuredSidebarItem | ModulizedSidebarItem | AdvancedSidebarItem;
-
-interface EditorContextType {
-  mode: EditorMode;
-  setMode: (mode: EditorMode) => void;
-  promptType: PromptType;
-  setPromptType: (type: PromptType) => void;
-  documentName: string;
-  setDocumentName: (name: string) => void;
-  documentStatus: DocumentStatus;
-  setDocumentStatus: (status: DocumentStatus) => void;
-  privacyStatus: PrivacyStatus;
-  setPrivacyStatus: (status: PrivacyStatus) => void;
-  isOuterSidebarExpanded: boolean;
-  toggleOuterSidebar: () => void;
-  isInnerSidebarExpanded: boolean;
-  toggleInnerSidebar: () => void;
-  isRightSidebarExpanded: boolean;
-  toggleRightSidebar: () => void;
-  activeSidebarItem: SidebarItem;
-  setActiveSidebarItem: (item: SidebarItem) => void;
-  hoveredSidebarItem: SidebarItem;
-  setHoveredSidebarItem: (item: SidebarItem | null, immediate?: boolean) => void;
-  standardPromptContent: string;
-  setStandardPromptContent: (content: string) => void;
-  sections: Section[];
-  addSection: (parentId?: string) => void;
-  updateSection: (id: string, data: Partial<Section>) => void;
-  removeSection: (id: string) => void;
-  sectionViewOption: SectionViewOption;
-  setSectionViewOption: (option: SectionViewOption) => void;
-  sectionFormat: SectionFormat;
-  setSectionFormat: (format: SectionFormat) => void;
-  modules: Module[];
-  addModule: () => void;
-  updateModule: (id: string, data: Partial<Module>) => void;
-  removeModule: (id: string) => void;
-  moduleViewOption: ViewOption;
-  setModuleViewOption: (option: ViewOption) => void;
-  kanbanBlocks: KanbanBlock[];
-  addKanbanBlock: () => void;
-  updateKanbanBlock: (id: string, data: Partial<KanbanBlock>) => void;
-  removeKanbanBlock: (id: string) => void;
-  addModuleToBlock: (blockId: string) => void;
-  removeModuleFromBlock: (blockId: string, moduleId: string) => void;
-  getSidebarItems: () => { icon: any; label: string }[];
-}
-
-const EditorContext = createContext<EditorContextType | undefined>(undefined);
-
-export const useEditor = () => {
-  const context = useContext(EditorContext);
-  if (!context) {
-    throw new Error('useEditor must be used within an EditorProvider');
-  }
-  return context;
-};
+import React, { useState, ReactNode, useRef } from 'react';
+import { EditorContext } from './EditorContextDefinition';
+import { 
+  Section, 
+  Module, 
+  KanbanBlock, 
+  EditorMode,
+  PromptType,
+  DocumentStatus,
+  PrivacyStatus,
+  SidebarItem,
+  SectionViewOption,
+  SectionFormat,
+  ViewOption
+} from '../types/editorTypes';
 
 interface EditorProviderProps {
   children: ReactNode;
@@ -130,12 +71,16 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     }
   };
 
-  const toggleInnerSidebar = () => {
-    setIsInnerSidebarExpanded(prev => !prev);
-    if (!isInnerSidebarExpanded) {
+const toggleInnerSidebar = () => {
+  setIsInnerSidebarExpanded(prev => {
+    const newValue = !prev;
+    // If we're closing the sidebar, clear the active item
+    if (!newValue) {
       setActiveSidebarItem(null);
     }
-  };
+    return newValue;
+  });
+};
 
   const toggleRightSidebar = () => {
     setIsRightSidebarExpanded(prev => !prev);
@@ -222,6 +167,15 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     );
   };
 
+  const getSidebarItems = () => {
+    // This is a placeholder implementation - you may want to customize this based on your needs
+    return [
+      { icon: null, label: 'Files' },
+      { icon: null, label: 'Templates' },
+      { icon: null, label: 'Settings' }
+    ];
+  };
+
   return (
     <EditorContext.Provider
       value={{
@@ -266,7 +220,8 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
         updateKanbanBlock,
         removeKanbanBlock,
         addModuleToBlock,
-        removeModuleFromBlock
+        removeModuleFromBlock,
+        getSidebarItems
       }}
     >
       {children}
