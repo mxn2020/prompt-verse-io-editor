@@ -1,0 +1,313 @@
+import React, { useState } from 'react';
+import { 
+  Menu, 
+  ChevronDown, 
+  Edit3, 
+  Eye, 
+  MessageSquare, 
+  FileEdit, 
+  Save, 
+  Lock, 
+  Globe, 
+  Users, 
+  Share2, 
+  PanelLeftClose, 
+  PanelLeftOpen, 
+  User,
+  FileText,
+  Layout,
+  Puzzle,
+  Boxes
+} from 'lucide-react';
+import { useEditor } from '../../context/EditorContext';
+import { useTheme } from '../../context/ThemeContext';
+
+const Navbar: React.FC = () => {
+  const { 
+    mode, 
+    setMode, 
+    promptType,
+    setPromptType,
+    documentName, 
+    setDocumentName, 
+    documentStatus, 
+    privacyStatus, 
+    setPrivacyStatus,
+    toggleOuterSidebar,
+    isOuterSidebarExpanded
+  } = useEditor();
+  
+  const { theme } = useTheme();
+  
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState(documentName);
+  const [showModeDropdown, setShowModeDropdown] = useState(false);
+  const [showPromptTypeDropdown, setShowPromptTypeDropdown] = useState(false);
+  const [showPrivacyDropdown, setShowPrivacyDropdown] = useState(false);
+
+  const handleNameSubmit = () => {
+    setDocumentName(nameInput);
+    setIsEditingName(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleNameSubmit();
+    }
+  };
+
+  const getModeIcon = () => {
+    switch (mode) {
+      case 'editing':
+        return <Edit3 size={18} />;
+      case 'viewing':
+        return <Eye size={18} />;
+      case 'commenting':
+        return <MessageSquare size={18} />;
+      case 'suggesting':
+        return <FileEdit size={18} />;
+      default:
+        return <Edit3 size={18} />;
+    }
+  };
+
+  const getPromptTypeIcon = () => {
+    switch (promptType) {
+      case 'standard':
+        return <FileText size={18} />;
+      case 'structured':
+        return <Layout size={18} />;
+      case 'modulized':
+        return <Puzzle size={18} />;
+      case 'advanced':
+        return <Boxes size={18} />;
+      default:
+        return <FileText size={18} />;
+    }
+  };
+
+  const getPrivacyIcon = () => {
+    switch (privacyStatus) {
+      case 'private':
+        return <Lock size={18} />;
+      case 'public':
+        return <Globe size={18} />;
+      case 'shared':
+        return <Users size={18} />;
+      default:
+        return <Lock size={18} />;
+    }
+  };
+
+  const getStatusIndicator = () => {
+    switch (documentStatus) {
+      case 'saved':
+        return <span className="text-green-500 flex items-center gap-1"><Save size={16} /> Saved</span>;
+      case 'saving':
+        return <span className="text-yellow-500 flex items-center gap-1"><Save size={16} /> Saving...</span>;
+      case 'unsaved':
+        return <span className="text-red-500 flex items-center gap-1"><Save size={16} /> Unsaved</span>;
+      default:
+        return <span className="text-green-500 flex items-center gap-1"><Save size={16} /> Saved</span>;
+    }
+  };
+
+  const baseClasses = "h-14 px-4 flex items-center justify-between border-b";
+  const themeClasses = theme === 'dark' 
+    ? "bg-gray-800 border-gray-700" 
+    : "bg-white border-gray-200";
+
+  return (
+    <nav className={`${baseClasses} ${themeClasses}`}>
+      {/* Left Section */}
+      <div className="flex items-center space-x-3">
+        <button 
+          className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+          onClick={toggleOuterSidebar}
+        >
+          {isOuterSidebarExpanded ? <PanelLeftClose size={20} /> : <PanelLeftOpen size={20} />}
+        </button>
+        
+        {/* Mode Dropdown */}
+        <div className="relative">
+          <button 
+            className="flex items-center space-x-1 px-3 py-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={() => setShowModeDropdown(!showModeDropdown)}
+          >
+            {getModeIcon()}
+            <span className="capitalize">{mode}</span>
+            <ChevronDown size={16} />
+          </button>
+          
+          {showModeDropdown && (
+            <div className={`absolute top-full left-0 mt-1 w-40 rounded-md shadow-lg z-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+              <ul>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'editing' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setMode('editing'); setShowModeDropdown(false); }}
+                >
+                  <Edit3 size={16} />
+                  <span>Editing</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'viewing' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setMode('viewing'); setShowModeDropdown(false); }}
+                >
+                  <Eye size={16} />
+                  <span>Viewing</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'commenting' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setMode('commenting'); setShowModeDropdown(false); }}
+                >
+                  <MessageSquare size={16} />
+                  <span>Commenting</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${mode === 'suggesting' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setMode('suggesting'); setShowModeDropdown(false); }}
+                >
+                  <FileEdit size={16} />
+                  <span>Suggesting</span>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* Prompt Type Dropdown */}
+        <div className="relative">
+          <button 
+            className="flex items-center space-x-1 px-3 py-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={() => setShowPromptTypeDropdown(!showPromptTypeDropdown)}
+          >
+            {getPromptTypeIcon()}
+            <span className="capitalize">{promptType}</span>
+            <ChevronDown size={16} />
+          </button>
+          
+          {showPromptTypeDropdown && (
+            <div className={`absolute top-full left-0 mt-1 w-40 rounded-md shadow-lg z-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+              <ul>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'standard' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setPromptType('standard'); setShowPromptTypeDropdown(false); }}
+                >
+                  <FileText size={16} />
+                  <span>Standard</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'structured' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setPromptType('structured'); setShowPromptTypeDropdown(false); }}
+                >
+                  <Layout size={16} />
+                  <span>Structured</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'modulized' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setPromptType('modulized'); setShowPromptTypeDropdown(false); }}
+                >
+                  <Puzzle size={16} />
+                  <span>Modulized</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${promptType === 'advanced' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setPromptType('advanced'); setShowPromptTypeDropdown(false); }}
+                >
+                  <Boxes size={16} />
+                  <span>Advanced</span>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Middle Section */}
+      <div className="flex items-center space-x-4">
+        {isEditingName ? (
+          <div className="flex items-center space-x-1">
+            <input
+              type="text"
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              onBlur={handleNameSubmit}
+              onKeyDown={handleKeyDown}
+              className={`px-2 py-1 border rounded ${theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              autoFocus
+            />
+          </div>
+        ) : (
+          <div className="flex items-center space-x-1">
+            <h1 className="text-lg font-medium">{documentName}</h1>
+            <button 
+              className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+              onClick={() => setIsEditingName(true)}
+            >
+              <Edit3 size={14} />
+            </button>
+          </div>
+        )}
+        
+        <div className="text-sm">
+          {getStatusIndicator()}
+        </div>
+        
+        {/* Privacy Dropdown */}
+        <div className="relative">
+          <button 
+            className="flex items-center space-x-1 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={() => setShowPrivacyDropdown(!showPrivacyDropdown)}
+          >
+            {getPrivacyIcon()}
+            <ChevronDown size={16} />
+          </button>
+          
+          {showPrivacyDropdown && (
+            <div className={`absolute top-full right-0 mt-1 w-40 rounded-md shadow-lg z-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} border ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+              <ul>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${privacyStatus === 'private' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setPrivacyStatus('private'); setShowPrivacyDropdown(false); }}
+                >
+                  <Lock size={16} />
+                  <span>Private</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${privacyStatus === 'public' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setPrivacyStatus('public'); setShowPrivacyDropdown(false); }}
+                >
+                  <Globe size={16} />
+                  <span>Public</span>
+                </li>
+                <li 
+                  className={`flex items-center space-x-2 px-4 py-2 cursor-pointer ${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} ${privacyStatus === 'shared' ? (theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100') : ''}`}
+                  onClick={() => { setPrivacyStatus('shared'); setShowPrivacyDropdown(false); }}
+                >
+                  <Users size={16} />
+                  <span>Shared</span>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Right Section */}
+      <div className="flex items-center space-x-4">
+        <button className="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+          <Share2 size={20} />
+        </button>
+        
+        <div className="flex items-center space-x-2">
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-blue-600' : 'bg-blue-500'} text-white`}>
+            <User size={16} />
+          </div>
+          <span className="text-sm font-medium">John Doe</span>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
