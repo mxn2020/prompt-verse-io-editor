@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEditor } from '../../hooks/useEditor';
+import { useEditor } from '../../hooks/use-editor';
 import { useTheme } from '../../context/ThemeContext';
 import { Textarea } from '../ui/textarea';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEditor } from '../../hooks/useEditor';
+import { useEditor } from '../../hooks/use-editor';
 import StandardPrompt from './StandardPrompt';
 import StructuredPrompt from './StructuredPrompt';
 import ModulizedPrompt from './ModulizedPrompt';

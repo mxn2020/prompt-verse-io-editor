@@ -7,7 +7,7 @@ import Statusbar from './Statusbar';
 import Toolbar from './Toolbar';
 import ViewOptionsToolbar from './ViewOptionsToolbar';
 import EditorArea from '../editor/EditorArea';
-import { useEditor } from '../../hooks/useEditor';
+import { useEditor } from '../../hooks/use-editor';
 import { useTheme } from '../../context/ThemeContext';
 
 const Layout: React.FC = () => {

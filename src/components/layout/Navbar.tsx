@@ -18,7 +18,7 @@ import {
   Puzzle,
   Boxes
 } from 'lucide-react';
-import { useEditor } from '../../hooks/useEditor';
+import { useEditor } from '../../hooks/use-editor';
 import { useTheme } from '../../context/ThemeContext';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';

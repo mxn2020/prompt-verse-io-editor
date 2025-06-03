@@ -11,7 +11,7 @@ import {
   FileText
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { useEditor } from '../../hooks/useEditor';
+import { useEditor } from '../../hooks/use-editor';
 import { Button } from '../ui/button';
 
 const ViewOptionsToolbar: React.FC = () => {

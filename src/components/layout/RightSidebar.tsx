@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CurlyBraces as BracesCurly, GitBranch, Tag, Users, X, Search, Plus, ChevronDown, ChevronRight, Clock, FileEdit, History, Link2, MessageSquare, Settings, User } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { useEditor } from '../../hooks/useEditor';
+import { useEditor } from '../../hooks/use-editor';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
